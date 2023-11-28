@@ -1,25 +1,40 @@
 import { Controller } from '@nestjs/common';
-import { Payload } from '@nestjs/microservices';
 import { UsersService } from './users.service';
-import { CreateUserDto, UserServiceControllerMethods } from '@app/common';
+import {
+  CreateUserDto,
+  FindOneUserDto,
+  PaginationDto,
+  UpdateUserDto,
+  UserServiceController,
+  UserServiceControllerMethods,
+} from '@app/common';
+import { Observable } from 'rxjs';
 
 @Controller()
 @UserServiceControllerMethods()
-export class UsersController {
+export class UsersController implements UserServiceController {
   constructor(private readonly usersService: UsersService) {}
 
-  createUser(@Payload() createUserDto: CreateUserDto) {
+  createUser(createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
-  findAll() {
+  findAllUsers() {
     return this.usersService.findAll();
   }
-  findOne(@Payload() id: number) {
-    return this.usersService.findOne(id);
+  findOneUser(findOneUserDto: FindOneUserDto) {
+    return this.usersService.findOne(findOneUserDto.id);
   }
 
-  remove(@Payload() id: number) {
-    return this.usersService.remove(id);
+  updateUser(updateUserDto: UpdateUserDto) {
+    return this.usersService.update(updateUserDto.id, updateUserDto);
+  }
+
+  removeUSer(findOneUserDto: FindOneUserDto) {
+    return this.usersService.remove(findOneUserDto.id);
+  }
+
+  queryUsers(paginationDto: Observable<PaginationDto>) {
+    return this.usersService.queryUsers(paginationDto);
   }
 }
