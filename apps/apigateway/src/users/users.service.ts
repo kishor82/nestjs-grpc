@@ -1,9 +1,9 @@
 import {
   CreateUserDto,
   PaginationDto,
-  USER_SERVICE_NAME,
+  USERS_SERVICE_NAME,
   UpdateUserDto,
-  UserServiceClient,
+  UsersServiceClient,
 } from '@app/common';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { AUTH_SERVICE } from './constants';
@@ -12,13 +12,13 @@ import { ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
-  private usersService: UserServiceClient;
+  private usersService: UsersServiceClient;
 
   constructor(@Inject(AUTH_SERVICE) private client: ClientGrpc) {}
 
   onModuleInit() {
     this.usersService =
-      this.client.getService<UserServiceClient>(USER_SERVICE_NAME);
+      this.client.getService<UsersServiceClient>(USERS_SERVICE_NAME);
   }
 
   create(createUserDto: CreateUserDto) {
@@ -38,7 +38,7 @@ export class UsersService implements OnModuleInit {
   }
 
   remove(id: string) {
-    return this.usersService.removeUSer({ id });
+    return this.usersService.removeUser({ id });
   }
 
   emailUsers() {

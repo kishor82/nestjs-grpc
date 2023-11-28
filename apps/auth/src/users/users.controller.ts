@@ -5,14 +5,14 @@ import {
   FindOneUserDto,
   PaginationDto,
   UpdateUserDto,
-  UserServiceController,
-  UserServiceControllerMethods,
+  UsersServiceController,
+  UsersServiceControllerMethods,
 } from '@app/common';
 import { Observable } from 'rxjs';
 
 @Controller()
-@UserServiceControllerMethods()
-export class UsersController implements UserServiceController {
+@UsersServiceControllerMethods()
+export class UsersController implements UsersServiceController {
   constructor(private readonly usersService: UsersService) {}
 
   createUser(createUserDto: CreateUserDto) {
@@ -30,7 +30,7 @@ export class UsersController implements UserServiceController {
     return this.usersService.update(updateUserDto.id, updateUserDto);
   }
 
-  removeUSer(findOneUserDto: FindOneUserDto) {
+  removeUser(findOneUserDto: FindOneUserDto) {
     return this.usersService.remove(findOneUserDto.id);
   }
 
